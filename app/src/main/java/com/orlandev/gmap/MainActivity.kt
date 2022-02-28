@@ -1,6 +1,7 @@
 package com.orlandev.gmap
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.orlandev.gmap.ui.theme.GMapTheme
+import com.orlandev.gmaplib.MapCardButtonsEvent
 import com.orlandev.gmaplib.MapPlaceInfo
 import com.orlandev.gmaplib.MapPoint
 import com.orlandev.gmaplib.MapScreen
@@ -68,7 +70,21 @@ class MainActivity : ComponentActivity() {
                         ),
 
                         )
-                    MapScreen(listOfMapPoints = listOfMapPoints)
+                    MapScreen(listOfMapPoints = listOfMapPoints) {
+                        when (it) {
+                            is MapCardButtonsEvent.OnGoUrlEvent -> {
+
+                                Log.d("event", "open Url")
+                            }
+                            is MapCardButtonsEvent.OnSeeMoreEvent -> {
+
+                                Log.d("event", "open place description")
+                            }
+                            is MapCardButtonsEvent.OnShareEvent -> {
+                                Log.d("event", "Share event")
+                            }
+                        }
+                    }
                 }
             }
         }
