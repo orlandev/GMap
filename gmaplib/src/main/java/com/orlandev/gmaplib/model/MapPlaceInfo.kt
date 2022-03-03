@@ -8,6 +8,7 @@ data class GroupBy(
 )
 
 data class MapPlaceInfo(
+    val uuid: String,
     val location: MapPoint,
     val title: String = "",
     val icon: Bitmap? = null,

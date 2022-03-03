@@ -10,7 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,6 +39,7 @@ fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<String>,
+    onMapPlaceInfoSelected: (MapPlaceInfo) -> Unit,
     sheetContent: @Composable () -> Unit
 ) {
 
@@ -70,16 +71,19 @@ fun MapScreen(
                 enter = scaleIn() + fadeIn()
             ) {
                 FloatingActionButton(
+
+                    elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     onClick = { currentPlaceInfo.value = null })
                 {
                     Icon(
-                        imageVector = Icons.Default.KeyboardArrowDown,
+                        imageVector = Icons.Default.Close,
                         contentDescription = "Close"
                     )
                 }
             }
         },
         floatingActionButtonPosition = FabPosition.End,
+        sheetElevation = 8.dp,
         sheetContent = {
             sheetContent()
         },
@@ -96,6 +100,7 @@ fun MapScreen(
                 onMarketSelected = {
                     currentPlaceInfo.value = it
                     focusManager.clearFocus()
+                    onMapPlaceInfoSelected(it)
                 }
             )
 
