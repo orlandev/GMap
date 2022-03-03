@@ -17,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.GoogleMapOptions
@@ -57,6 +58,8 @@ fun MapScreen(
         mutableStateOf("")
     }
 
+    val focusManager = LocalFocusManager.current
+
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetPeekHeight = if (currentPlaceInfo.value != null) sheetPeekHeight else 0.dp,
@@ -92,6 +95,7 @@ fun MapScreen(
                 mapPointsInfo = listOfMapPoints,
                 onMarketSelected = {
                     currentPlaceInfo.value = it
+                    focusManager.clearFocus()
                 }
             )
 
@@ -110,12 +114,14 @@ fun MapScreen(
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                         OutlinedTextField(
+                            modifier = Modifier.weight(8f),
                             singleLine = true,
                             maxLines = 1,
                             placeholder = { Text(text = "Search here") },
@@ -149,6 +155,7 @@ fun MapScreen(
                         modifier = Modifier.padding(8.dp),
                         border = chipBorderStroke,
                         onClick = {
+                            setSearchFilter("")
                             setCurrentFilter("")
                         }) {
                         Icon(Icons.Default.Add, contentDescription = null)
