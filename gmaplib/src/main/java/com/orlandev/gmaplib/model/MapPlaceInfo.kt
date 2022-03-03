@@ -5,4 +5,5 @@ data class MapPlaceInfo(
     val title: String = "",
     val description: String = "",
     val headerImage: String = "",
+    val groupBy: String = "",
 )

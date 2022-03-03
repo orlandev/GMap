@@ -31,46 +31,54 @@ class MainActivity : ComponentActivity() {
                             headerImage = "https://cdn.pixabay.com/photo/2020/05/08/16/06/dog-5146351__340.jpg",
                             location = MapPoint(20.009806, -75.828503),
                             title = "Lorem Ipsum",
+                            groupBy = "First",
                             description = description
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.013677, -75.812710),
                             title = "Lorem Ipsum",
+                            groupBy = "First",
                             description = description
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.009161, -75.839146),
                             title = "Lorem Ipsum",
+                            groupBy = "Second",
                             description = description
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.043998, -75.829533),
                             title = "Lorem Ipsum",
+                            groupBy = "Second",
                             description = description
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.027870, -75.852879),
                             title = "Lorem Ipsum",
+                            groupBy = "Third",
                             description = description
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.012064, -75.866097),
                             title = "Lorem Ipsum",
+                            groupBy = "Third",
                             description = description
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.013677, -75.839833),
                             title = "Lorem Ipsum",
+                            groupBy = "Four",
                             description = description
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.019322, -75.817688),
                             title = "Lorem Ipsum",
+                            groupBy = "Four",
                             description = description
                         ),
 
                         )
-                    MapScreen(listOfMapPoints = listOfMapPoints) {
+                    MapScreen(listOfMapPoints = listOfMapPoints, listOf("","First","Second","Third","Four")) {
                         when (it) {
                             is MapCardButtonsEvent.OnGoUrlEvent -> {
 

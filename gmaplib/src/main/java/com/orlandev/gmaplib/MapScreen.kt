@@ -2,10 +2,13 @@ package com.orlandev.gmaplib
 
 import android.util.Log
 import androidx.compose.animation.*
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,12 +22,13 @@ import com.orlandev.gmaplib.extensions.toLatLon
 import com.orlandev.gmaplib.model.MapPlaceInfo
 import com.orlandev.gmaplib.utils.MapCardButtonsEvent
 
-
 const val TAG = "MapScreen"
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MapScreen(
     listOfMapPoints: List<MapPlaceInfo>,
+    listOfFilters: List<String>,
     onMapCardButtonsEvent: (MapCardButtonsEvent) -> Unit
 ) {
 
@@ -34,17 +38,38 @@ fun MapScreen(
         mutableStateOf<MapPlaceInfo?>(null)
     }
 
+    val (currentFilter, setCurrentFilter) = rememberSaveable {
+        mutableStateOf("")
+    }
+
     Box(Modifier.fillMaxSize()) {
         GoogleMapView(
             modifier = Modifier.matchParentSize(),
             onMapLoaded = {
                 isMapLoaded = true
             },
+            currentFilter = currentFilter,
             mapPointsInfo = listOfMapPoints,
             onMarketSelected = {
                 currentPlaceInfo.value = it
             }
         )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(state = ScrollState(0))
+                .align(Alignment.TopCenter)
+        ) {
+            listOfFilters.forEach { listOfFilterItem ->
+                Chip(modifier = Modifier.padding(8.dp), onClick = {
+                    setCurrentFilter(listOfFilterItem)
+                }) {
+                    Text(text = listOfFilterItem)
+                }
+            }
+        }
+
         if (!isMapLoaded) {
             AnimatedVisibility(
                 modifier = Modifier
@@ -86,7 +111,8 @@ private fun GoogleMapView(
     modifier: Modifier,
     mapPointsInfo: List<MapPlaceInfo>,
     onMarketSelected: (MapPlaceInfo) -> Unit,
-    onMapLoaded: () -> Unit
+    onMapLoaded: () -> Unit,
+    currentFilter: String
 ) {
 
     // Observing and controlling the camera's state can be done with a CameraPositionState
@@ -104,6 +130,10 @@ private fun GoogleMapView(
                 compassEnabled = false,
             )
         )
+    }
+
+    val markerList = rememberSaveable {
+        mutableStateOf(mapPointsInfo)
     }
 
     GoogleMap(
@@ -124,7 +154,7 @@ private fun GoogleMapView(
             Log.d(TAG, "POI clicked: ${it.name}")
         }
     ) {
-        // Drawing on the map is accomplished with a child-based API
+
         val markerClick: (Marker) -> Boolean = { currentMarkerSelected ->
             Log.d(TAG, "${currentMarkerSelected.title} was clicked")
             onMarketSelected(mapPointsInfo.first {
@@ -132,9 +162,11 @@ private fun GoogleMapView(
             })
             false
         }
-        mapPointsInfo.forEach {
+
+        markerList.value.forEach {
             MarkerInfoWindowContent(
                 position = it.location.toLatLon(),
+                visible = it.groupBy == currentFilter || currentFilter == "",
                 title = it.title,
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE),
                 onClick = markerClick,
@@ -142,6 +174,7 @@ private fun GoogleMapView(
                 Text(marker.title ?: "Title")
             }
         }
+
     }
 }
 
