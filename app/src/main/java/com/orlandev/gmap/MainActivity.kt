@@ -1,7 +1,6 @@
 package com.orlandev.gmap
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +12,6 @@ import androidx.compose.ui.Modifier
 import com.orlandev.gmap.ui.theme.GMapTheme
 import com.orlandev.gmaplib.MapScreen
 import com.orlandev.gmaplib.model.GroupBy
-import com.orlandev.gmaplib.utils.MapCardButtonsEvent
 import com.orlandev.gmaplib.model.MapPlaceInfo
 import com.orlandev.gmaplib.model.MapPoint
 
@@ -74,7 +72,7 @@ class MainActivity : ComponentActivity() {
                         )
                     MapScreen(
                         listOfMapPoints = listOfMapPoints,
-                        listOfFilters = listOf( "First", "Second", "Third", "Four")
+                        listOfFilters = listOf( "First", "Second", "Third", "Four","Six","Seven","Home","Other")
                     ) {
                         LazyColumn() {
                             items(1000) {

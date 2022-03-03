@@ -2,13 +2,17 @@ package com.orlandev.gmaplib
 
 import android.util.Log
 import androidx.compose.animation.*
-import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -87,17 +91,49 @@ fun MapScreen(
                 }
             )
 
-            Row(
+
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .horizontalScroll(state = ScrollState(0))
-                    .align(Alignment.TopCenter)
+                    .align(Alignment.TopCenter),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                listOfFilters.forEach { listOfFilterItem ->
-                    Chip(modifier = Modifier.padding(8.dp), onClick = {
-                        setCurrentFilter(listOfFilterItem)
-                    }) {
-                        Text(text = listOfFilterItem)
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Button(shape = CircleShape, onClick = { /*TODO*/ }) {
+                        Icon(Icons.Default.Menu, contentDescription = "Menu")
+                    }
+
+                }
+
+                val scrollFilterState= rememberScrollState(0)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(state = scrollFilterState)
+                ) {
+
+                    val chipBorderStroke =
+                        BorderStroke(0.7.dp, color = MaterialTheme.colors.primary.copy(alpha = 0.7f))
+
+
+                    Chip(
+                        modifier = Modifier.padding(8.dp),
+                        border = chipBorderStroke,
+                        onClick = {
+                            setCurrentFilter("")
+                        }) {
+                        Icon(Icons.Default.Add, contentDescription = null)
+                    }
+                    listOfFilters.forEach { listOfFilterItem ->
+
+                        Chip(
+                            modifier = Modifier.padding(8.dp),
+                            border =chipBorderStroke,
+                            onClick = {
+                                setCurrentFilter(listOfFilterItem)
+                            }) {
+                            Text(text = listOfFilterItem)
+                        }
                     }
                 }
             }
