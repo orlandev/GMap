@@ -35,37 +35,37 @@ class MainActivity : ComponentActivity() {
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.013677, -75.812710),
-                            title = "Lorem Ipsum",
+                            title = "Real Home",
                             groupBy = GroupBy(filter = "First"),
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.009161, -75.839146),
-                            title = "Lorem Ipsum",
+                            title = "Pretty Space",
                             groupBy = GroupBy(filter = "Second"),
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.043998, -75.829533),
-                            title = "Lorem Ipsum",
+                            title = "Other place",
                             groupBy = GroupBy(filter = "Second"),
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.027870, -75.852879),
-                            title = "Lorem Ipsum",
+                            title = "New Space",
                             groupBy = GroupBy(filter = "Third"),
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.012064, -75.866097),
-                            title = "Lorem Ipsum",
+                            title = "Restaurant",
                             groupBy = GroupBy(filter = "Third"),
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.013677, -75.839833),
-                            title = "Lorem Ipsum",
+                            title = "Lorem",
                             groupBy = GroupBy(filter = "Third"),
                         ),
                         MapPlaceInfo(
                             location = MapPoint(20.019322, -75.817688),
-                            title = "Lorem Ipsum",
+                            title = "Ipsum",
                             groupBy = GroupBy(filter = "Four"),
                         ),
 

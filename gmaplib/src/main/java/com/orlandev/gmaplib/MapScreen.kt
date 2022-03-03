@@ -120,7 +120,10 @@ fun MapScreen(
                             maxLines = 1,
                             placeholder = { Text(text = "Search here") },
                             value = searchFilter,
-                            onValueChange = setSearchFilter,
+                            onValueChange = {
+                                setCurrentFilter(it)
+                                setSearchFilter(it)
+                            },
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor = Color.Transparent,
                                 unfocusedBorderColor = Color.Transparent,
@@ -142,7 +145,6 @@ fun MapScreen(
                             color = MaterialTheme.colors.primary.copy(alpha = 0.7f)
                         )
 
-
                     Chip(
                         modifier = Modifier.padding(8.dp),
                         border = chipBorderStroke,
@@ -152,7 +154,6 @@ fun MapScreen(
                         Icon(Icons.Default.Add, contentDescription = null)
                     }
                     listOfFilters.forEach { listOfFilterItem ->
-
                         Chip(
                             modifier = Modifier.padding(8.dp),
                             border = chipBorderStroke,
@@ -246,7 +247,7 @@ private fun GoogleMapView(
         markerList.value.forEach {
             MarkerInfoWindowContent(
                 position = it.location.toLatLon(),
-                visible = it.groupBy?.filter == currentFilter || currentFilter == "",
+                visible = it.groupBy?.filter == currentFilter || it.title.contains(currentFilter) || currentFilter == "",
                 title = it.title,
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE),
                 onClick = markerClick,
