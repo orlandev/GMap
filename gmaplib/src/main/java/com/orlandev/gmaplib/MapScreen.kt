@@ -6,10 +6,8 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -24,7 +22,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.compose.*
 import com.orlandev.gmaplib.extensions.toLatLon
 import com.orlandev.gmaplib.model.MapPlaceInfo
-import kotlinx.coroutines.launch
 
 const val TAG = "MapScreen"
 
@@ -37,10 +34,10 @@ fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<String>,
+    sheetContent: @Composable () -> Unit
 ) {
 
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
 
     var isMapLoaded by remember { mutableStateOf(false) }
 
@@ -50,10 +47,6 @@ fun MapScreen(
 
     val (currentFilter, setCurrentFilter) = rememberSaveable {
         mutableStateOf("")
-    }
-
-    val (showCardView, setShowCardView) = rememberSaveable {
-        mutableStateOf(false)
     }
 
     BottomSheetScaffold(
@@ -77,22 +70,7 @@ fun MapScreen(
         },
         floatingActionButtonPosition = FabPosition.End,
         sheetContent = {
-            LazyColumn(modifier = Modifier) {
-                item {
-                    Button(onClick = {
-                        scope.launch {
-                            if (scaffoldState.bottomSheetState.isExpanded)
-                                scaffoldState.bottomSheetState.collapse()
-                        }
-                    }) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = null)
-
-                    }
-                }
-                items(500) {
-                    Text(text = "Sheet Content")
-                }
-            }
+            sheetContent()
         },
     ) {
 

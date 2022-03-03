@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import com.orlandev.gmap.ui.theme.GMapTheme
 import com.orlandev.gmaplib.MapScreen
@@ -72,8 +74,14 @@ class MainActivity : ComponentActivity() {
                         )
                     MapScreen(
                         listOfMapPoints = listOfMapPoints,
-                        listOfFilters = listOf("", "First", "Second", "Third", "Four")
-                    )
+                        listOfFilters = listOf( "First", "Second", "Third", "Four")
+                    ) {
+                        LazyColumn() {
+                            items(1000) {
+                                Text(text = "Content -> ")
+                            }
+                        }
+                    }
                 }
             }
         }
