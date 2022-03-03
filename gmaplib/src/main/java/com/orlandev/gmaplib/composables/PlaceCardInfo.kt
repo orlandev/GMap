@@ -2,16 +2,21 @@ package com.orlandev.gmaplib.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.gestures.DraggableState
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,6 +32,8 @@ fun PlaceCardInfo(
     mapPlaceInfo: MapPlaceInfo? = null,
     onMapCardButtonsEvent: (MapCardButtonsEvent) -> Unit
 ) {
+
+
     Card(
         elevation = 2.dp,
         shape = RoundedCornerShape(20.dp),
@@ -34,7 +41,9 @@ fun PlaceCardInfo(
             .fillMaxWidth()
             .height(270.dp)
             .padding(8.dp)
-    ) {
+
+    )
+    {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.SpaceBetween,

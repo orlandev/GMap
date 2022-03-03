@@ -78,7 +78,10 @@ class MainActivity : ComponentActivity() {
                         ),
 
                         )
-                    MapScreen(listOfMapPoints = listOfMapPoints, listOf("","First","Second","Third","Four")) {
+                    MapScreen(
+                        listOfMapPoints = listOfMapPoints,
+                        listOfFilters = listOf("", "First", "Second", "Third", "Four")
+                    ) {
                         when (it) {
                             is MapCardButtonsEvent.OnGoUrlEvent -> {
 

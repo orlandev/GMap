@@ -1,16 +1,29 @@
 package com.orlandev.gmaplib
 
 import android.util.Log
+import android.view.MotionEvent
 import androidx.compose.animation.*
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInteropFilter
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -21,16 +34,25 @@ import com.orlandev.gmaplib.composables.PlaceCardInfo
 import com.orlandev.gmaplib.extensions.toLatLon
 import com.orlandev.gmaplib.model.MapPlaceInfo
 import com.orlandev.gmaplib.utils.MapCardButtonsEvent
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 const val TAG = "MapScreen"
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(
+    ExperimentalMaterialApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
+    androidx.compose.animation.ExperimentalAnimationApi::class
+)
 @Composable
 fun MapScreen(
+    sheetPeekHeight: Dp = 200.dp,
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<String>,
     onMapCardButtonsEvent: (MapCardButtonsEvent) -> Unit
 ) {
+
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scope = rememberCoroutineScope()
 
     var isMapLoaded by remember { mutableStateOf(false) }
 
@@ -42,35 +64,79 @@ fun MapScreen(
         mutableStateOf("")
     }
 
-    Box(Modifier.fillMaxSize()) {
-        GoogleMapView(
-            modifier = Modifier.matchParentSize(),
-            onMapLoaded = {
-                isMapLoaded = true
-            },
-            currentFilter = currentFilter,
-            mapPointsInfo = listOfMapPoints,
-            onMarketSelected = {
-                currentPlaceInfo.value = it
-            }
-        )
+    val (showCardView, setShowCardView) = rememberSaveable {
+        mutableStateOf(false)
+    }
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(state = ScrollState(0))
-                .align(Alignment.TopCenter)
-        ) {
-            listOfFilters.forEach { listOfFilterItem ->
-                Chip(modifier = Modifier.padding(8.dp), onClick = {
-                    setCurrentFilter(listOfFilterItem)
-                }) {
-                    Text(text = listOfFilterItem)
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = if (currentPlaceInfo.value != null) sheetPeekHeight else 0.dp,
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = currentPlaceInfo.value != null && scaffoldState.bottomSheetState.isCollapsed,
+                exit = scaleOut() + fadeOut(),
+                enter = scaleIn() + fadeIn()
+            ) {
+                FloatingActionButton(
+                    onClick = { currentPlaceInfo.value = null })
+                {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowDown,
+                        contentDescription = "Close"
+                    )
                 }
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.End,
+        sheetContent = {
+            LazyColumn(modifier = Modifier) {
+                item {
+                    Button(onClick = {
+                        scope.launch {
+                            if (scaffoldState.bottomSheetState.isExpanded)
+                                scaffoldState.bottomSheetState.collapse()
+                        }
+                    }) {
+                        Icon(imageVector = Icons.Default.Close, contentDescription = null)
 
-        if (!isMapLoaded) {
+                    }
+                }
+                items(500) {
+                    Text(text = "Sheet Content")
+                }
+            }
+        },
+    ) {
+
+        Box(Modifier.fillMaxSize()) {
+            GoogleMapView(
+                modifier = Modifier.matchParentSize(),
+                onMapLoaded = {
+                    isMapLoaded = true
+                },
+                currentFilter = currentFilter,
+                mapPointsInfo = listOfMapPoints,
+                onMarketSelected = {
+                    currentPlaceInfo.value = it
+                }
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(state = ScrollState(0))
+                    .align(Alignment.TopCenter)
+            ) {
+                listOfFilters.forEach { listOfFilterItem ->
+                    Chip(modifier = Modifier.padding(8.dp), onClick = {
+                        setCurrentFilter(listOfFilterItem)
+                    }) {
+                        Text(text = listOfFilterItem)
+                    }
+                }
+            }
+
+
             AnimatedVisibility(
                 modifier = Modifier
                     .matchParentSize(),
@@ -84,26 +150,12 @@ fun MapScreen(
                         .wrapContentSize()
                 )
             }
+
         }
 
-        AnimatedVisibility(
-            enter = slideInVertically(
-                initialOffsetY = { 100 }
-            ) + fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier
-                .padding(bottom = 57.dp)
-                .align(Alignment.BottomCenter),
-            visible = currentPlaceInfo.value != null
-        ) {
-            PlaceCardInfo(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter),
-                onMapCardButtonsEvent = onMapCardButtonsEvent,
-                mapPlaceInfo = currentPlaceInfo.value
-            )
-        }
     }
+
+
 }
 
 @Composable
@@ -156,7 +208,6 @@ private fun GoogleMapView(
     ) {
 
         val markerClick: (Marker) -> Boolean = { currentMarkerSelected ->
-            Log.d(TAG, "${currentMarkerSelected.title} was clicked")
             onMarketSelected(mapPointsInfo.first {
                 it.location.toLatLon() == currentMarkerSelected.position
             })
@@ -177,4 +228,6 @@ private fun GoogleMapView(
 
     }
 }
+
+
 
