@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -17,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.GoogleMapOptions
@@ -50,6 +50,10 @@ fun MapScreen(
     }
 
     val (currentFilter, setCurrentFilter) = rememberSaveable {
+        mutableStateOf("")
+    }
+
+    val (searchFilter, setSearchFilter) = rememberSaveable {
         mutableStateOf("")
     }
 
@@ -91,21 +95,41 @@ fun MapScreen(
                 }
             )
 
-
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(Alignment.TopCenter),
+                    .align(Alignment.TopCenter)
+                    .padding(top = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Button(shape = CircleShape, onClick = { /*TODO*/ }) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu")
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(8.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+                        }
+                        OutlinedTextField(
+                            singleLine = true,
+                            maxLines = 1,
+                            placeholder = { Text(text = "Search here") },
+                            value = searchFilter,
+                            onValueChange = setSearchFilter,
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                focusedBorderColor = Color.Transparent,
+                                unfocusedBorderColor = Color.Transparent,
+                            )
+                        )
                     }
-
                 }
 
-                val scrollFilterState= rememberScrollState(0)
+                val scrollFilterState = rememberScrollState(0)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -113,7 +137,10 @@ fun MapScreen(
                 ) {
 
                     val chipBorderStroke =
-                        BorderStroke(0.7.dp, color = MaterialTheme.colors.primary.copy(alpha = 0.7f))
+                        BorderStroke(
+                            0.7.dp,
+                            color = MaterialTheme.colors.primary.copy(alpha = 0.7f)
+                        )
 
 
                     Chip(
@@ -128,7 +155,7 @@ fun MapScreen(
 
                         Chip(
                             modifier = Modifier.padding(8.dp),
-                            border =chipBorderStroke,
+                            border = chipBorderStroke,
                             onClick = {
                                 setCurrentFilter(listOfFilterItem)
                             }) {
