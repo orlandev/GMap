@@ -6,6 +6,28 @@
 
   A data model is used to pass by parameters the information that the component needs to show the markers on the map, filtering and searching are also included... in addition to using a BottomSheet in which any composable passed by parameters will be rendered .
 
+
+## Dependencies
+
+1. Add it in your root build.gradle at the end of repositories:
+
+```gradle
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+  ```
+2. Add the dependency
+
+```gradle
+	dependencies {
+	        implementation 'com.github.orlandev:GMap:x.x.x'
+	}
+  ```
+
+
 ## Required data models
 
 Data model needed to display the necessary information on the map. 
