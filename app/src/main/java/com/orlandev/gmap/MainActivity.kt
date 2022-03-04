@@ -30,55 +30,65 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    val listOfFilters = listOf(
+                        "First",
+                        "Second",
+                        "Third",
+                        "Four",
+                        "Six",
+                        "Seven",
+                        "Home",
+                        "Other"
+                    )
                     val listOfMapPoints = listOf<MapPlaceInfo>(
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.009806, -75.828503),
                             title = "Lorem Ipsum",
-                            groupBy = GroupBy(filter = "First"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.013677, -75.812710),
                             title = "Real Home",
-                            groupBy = GroupBy(filter = "First"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.009161, -75.839146),
                             title = "Pretty Space",
-                            groupBy = GroupBy(filter = "Second"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.043998, -75.829533),
                             title = "Other place",
-                            groupBy = GroupBy(filter = "Second"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.027870, -75.852879),
                             title = "New Space",
-                            groupBy = GroupBy(filter = "Third"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.012064, -75.866097),
                             title = "Restaurant",
-                            groupBy = GroupBy(filter = "Third"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
 
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.013677, -75.839833),
                             title = "Lorem",
-                            groupBy = GroupBy(filter = "Third"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.019322, -75.817688),
                             title = "Ipsum",
-                            groupBy = GroupBy(filter = "Four"),
+                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
                         ),
 
                         )
@@ -88,16 +98,7 @@ class MainActivity : ComponentActivity() {
                     }
                     MapScreen(
                         listOfMapPoints = listOfMapPoints,
-                        listOfFilters = listOf(
-                            "First",
-                            "Second",
-                            "Third",
-                            "Four",
-                            "Six",
-                            "Seven",
-                            "Home",
-                            "Other"
-                        ),
+                        listOfFilters = listOfFilters,
                         onMapPlaceInfoSelected = {
                             currentPlaceInfo.value = it
                         },
