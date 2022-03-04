@@ -23,7 +23,7 @@
 
 ```gradle
 	dependencies {
-	        implementation 'com.github.orlandev:GMap:x.x.x'
+	        implementation 'com.github.orlandev:GMap:x.y.z'
 	}
   ```
 
