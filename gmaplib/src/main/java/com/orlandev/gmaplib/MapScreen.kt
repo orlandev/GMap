@@ -2,16 +2,13 @@ package com.orlandev.gmaplib
 
 import android.util.Log
 import androidx.compose.animation.*
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -34,14 +31,18 @@ const val TAG = "MapScreen"
     ExperimentalMaterialApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
     androidx.compose.animation.ExperimentalAnimationApi::class
 )
+
 @Composable
 fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<String>,
     onMapPlaceInfoSelected: (MapPlaceInfo) -> Unit,
     sheetContent: @Composable () -> Unit
 ) {
+
 
     val scaffoldState = rememberBottomSheetScaffoldState()
 
@@ -122,8 +123,20 @@ fun MapScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { /*TODO*/ }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+
+                        Box(
+                            modifier = Modifier
+                                .weight(2f)
+                                .padding(8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (leadingIcon != null) {
+                                leadingIcon()
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Default.Search, contentDescription = null
+                                )
+                            }
                         }
                         OutlinedTextField(
                             modifier = Modifier.weight(8f),
@@ -140,6 +153,26 @@ fun MapScreen(
                                 unfocusedBorderColor = Color.Transparent,
                             )
                         )
+                        Box(
+                            modifier = Modifier
+                                .weight(2f)
+                                .padding(8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (trailingIcon != null) {
+                                trailingIcon()
+                            } else {
+                                if (searchFilter.isNotEmpty())
+                                    Icon(
+                                        modifier = Modifier.clickable {
+                                            setSearchFilter("")
+                                            setCurrentFilter("")
+                                        },
+                                        imageVector = Icons.Default.Close, contentDescription = null
+                                    )
+                            }
+                        }
+
                     }
                 }
 
@@ -171,6 +204,7 @@ fun MapScreen(
                             border = chipBorderStroke,
                             onClick = {
                                 setCurrentFilter(listOfFilterItem)
+
                             }) {
                             Text(text = listOfFilterItem)
                         }
@@ -194,10 +228,7 @@ fun MapScreen(
             }
 
         }
-
     }
-
-
 }
 
 @Composable
