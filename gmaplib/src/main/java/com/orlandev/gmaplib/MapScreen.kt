@@ -226,7 +226,6 @@ fun MapScreen(
                         .wrapContentSize()
                 )
             }
-
         }
     }
 }
