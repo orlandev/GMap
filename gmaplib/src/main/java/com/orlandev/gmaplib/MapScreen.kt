@@ -1,5 +1,6 @@
 package com.orlandev.gmaplib
 
+
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
@@ -31,6 +32,7 @@ const val TAG = "MapScreen"
     ExperimentalMaterialApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
     androidx.compose.animation.ExperimentalAnimationApi::class
 )
+
 
 @Composable
 fun MapScreen(
@@ -195,7 +197,8 @@ fun MapScreen(
                         onClick = {
                             setSearchFilter("")
                             setCurrentFilter("")
-                        }) {
+                        })
+                    {
                         Icon(Icons.Default.Add, contentDescription = null)
                     }
                     listOfFilters.forEach { listOfFilterItem ->
@@ -227,6 +230,13 @@ fun MapScreen(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun Chip(modifier: Modifier, border: BorderStroke, onClick: () -> Unit, content: @Composable () -> Unit) {
+    Card(modifier = modifier.clickable { onClick() }, border = border) {
+        content()
     }
 }
 
