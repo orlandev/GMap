@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -191,7 +192,7 @@ fun MapScreen(
                             color = MaterialTheme.colors.primary.copy(alpha = 0.7f)
                         )
 
-                    Chip(
+                    MapChip(
                         modifier = Modifier.padding(8.dp),
                         border = chipBorderStroke,
                         onClick = {
@@ -202,7 +203,7 @@ fun MapScreen(
                         Icon(Icons.Default.Add, contentDescription = null)
                     }
                     listOfFilters.forEach { listOfFilterItem ->
-                        Chip(
+                        MapChip(
                             modifier = Modifier.padding(8.dp),
                             border = chipBorderStroke,
                             onClick = {
@@ -234,9 +235,18 @@ fun MapScreen(
 }
 
 @Composable
-fun Chip(modifier: Modifier, border: BorderStroke, onClick: () -> Unit, content: @Composable () -> Unit) {
-    Card(modifier = modifier.clickable { onClick() }, border = border) {
-        content()
+internal fun MapChip(
+    modifier: Modifier,
+    border: BorderStroke,
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    Card(
+        modifier = modifier.wrapContentSize(align = Alignment.Center)
+        .clickable { onClick() }, border = border, shape = RoundedCornerShape(20.dp)) {
+        Box(modifier=Modifier.padding(horizontal = 16.dp, vertical = 8.dp)){
+            content()
+        }
     }
 }
 
