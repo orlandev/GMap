@@ -104,6 +104,7 @@ class MainActivity : ComponentActivity() {
                         onMapPlaceInfoSelected = {
                             currentPlaceInfo.value = it
                         },
+                        searchBarPlaceholder = { Text(text = "Search here")}
                     ) {
                         BoxWithConstraints {
                             LazyColumn(modifier = Modifier.fillMaxSize()) {
