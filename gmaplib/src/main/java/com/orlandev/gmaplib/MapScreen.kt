@@ -33,13 +33,14 @@ const val TAG = "MapScreen"
 @Composable
 fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<String>,
     fabBackgroundColor: Color,
     fabContentColor: Color = Color.Black,
     onMapPlaceInfoSelected: (MapPlaceInfo) -> Unit,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    searchBarPlaceholder: @Composable () -> Unit,
     sheetContent: @Composable () -> Unit
 ) {
 
@@ -73,6 +74,7 @@ fun MapScreen(
             ) {
                 FloatingActionButton(
                     backgroundColor = fabBackgroundColor,
+                    contentColor = fabContentColor,
                     elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     onClick = { currentPlaceInfo.value = null })
                 {
@@ -142,7 +144,7 @@ fun MapScreen(
                             modifier = Modifier.weight(8f),
                             singleLine = true,
                             maxLines = 1,
-                            placeholder = { Text(text = "Search here") },
+                            placeholder = searchBarPlaceholder,
                             value = searchFilter,
                             onValueChange = {
                                 setCurrentFilter(it)
