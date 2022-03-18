@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.orlandev.gmap.ui.theme.GMapTheme
 import com.orlandev.gmaplib.MapScreen
@@ -97,6 +98,7 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf<MapPlaceInfo?>(null)
                     }
                     MapScreen(
+                        fabBackgroundColor = Color.Red,
                         listOfMapPoints = listOfMapPoints,
                         listOfFilters = listOfFilters,
                         onMapPlaceInfoSelected = {

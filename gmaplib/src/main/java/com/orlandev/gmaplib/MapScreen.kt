@@ -29,12 +29,7 @@ import com.orlandev.gmaplib.model.MapPlaceInfo
 
 const val TAG = "MapScreen"
 
-@OptIn(
-    ExperimentalMaterialApi::class, androidx.compose.ui.ExperimentalComposeUiApi::class,
-    androidx.compose.animation.ExperimentalAnimationApi::class
-)
-
-
+@OptIn(ExperimentalMaterialApi::class, androidx.compose.animation.ExperimentalAnimationApi::class)
 @Composable
 fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
@@ -42,6 +37,8 @@ fun MapScreen(
     trailingIcon: @Composable (() -> Unit)? = null,
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<String>,
+    fabBackgroundColor: Color,
+    fabContentColor: Color = Color.Black,
     onMapPlaceInfoSelected: (MapPlaceInfo) -> Unit,
     sheetContent: @Composable () -> Unit
 ) {
@@ -75,7 +72,7 @@ fun MapScreen(
                 enter = scaleIn() + fadeIn()
             ) {
                 FloatingActionButton(
-
+                    backgroundColor = fabBackgroundColor,
                     elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     onClick = { currentPlaceInfo.value = null })
                 {
@@ -242,9 +239,11 @@ internal fun MapChip(
     content: @Composable () -> Unit
 ) {
     Card(
-        modifier = modifier.wrapContentSize(align = Alignment.Center)
-        .clickable { onClick() }, border = border, shape = RoundedCornerShape(20.dp)) {
-        Box(modifier=Modifier.padding(horizontal = 16.dp, vertical = 8.dp)){
+        modifier = modifier
+            .wrapContentSize(align = Alignment.Center)
+            .clickable { onClick() }, border = border, shape = RoundedCornerShape(20.dp)
+    ) {
+        Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             content()
         }
     }
