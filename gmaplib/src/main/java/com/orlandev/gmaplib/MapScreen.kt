@@ -33,6 +33,7 @@ const val TAG = "MapScreen"
 @Composable
 fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
+    zoomStart: Float = 19f,
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<String>,
     fabBackgroundColor: Color,
@@ -41,6 +42,7 @@ fun MapScreen(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     searchBarPlaceholder: @Composable () -> Unit,
+    loadingMapPlaceHolder: @Composable (() -> Unit)? = null,
     sheetContent: @Composable () -> Unit
 ) {
 
@@ -95,6 +97,7 @@ fun MapScreen(
         Box(Modifier.fillMaxSize()) {
             GoogleMapView(
                 modifier = Modifier.matchParentSize(),
+                zoomStart = zoomStart,
                 onMapLoaded = {
                     isMapLoaded = true
                 },
@@ -223,11 +226,15 @@ fun MapScreen(
                 enter = EnterTransition.None,
                 exit = fadeOut()
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.background)
-                        .wrapContentSize()
-                )
+                if (loadingMapPlaceHolder != null) {
+                    loadingMapPlaceHolder()
+                } else {
+                    CircularProgressIndicator(
+                        color = fabBackgroundColor,
+                        modifier = Modifier
+                            .wrapContentSize()
+                    )
+                }
             }
         }
     }
@@ -253,7 +260,7 @@ internal fun MapChip(
 
 @Composable
 private fun GoogleMapView(
-    modifier: Modifier,
+    modifier: Modifier, zoomStart: Float,
     mapPointsInfo: List<MapPlaceInfo>,
     onMarketSelected: (MapPlaceInfo) -> Unit,
     onMapLoaded: () -> Unit,
@@ -262,7 +269,7 @@ private fun GoogleMapView(
 
     // Observing and controlling the camera's state can be done with a CameraPositionState
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(mapPointsInfo[0].location.toLatLon(), 11f)
+        position = CameraPosition.fromLatLngZoom(mapPointsInfo[0].location.toLatLon(), zoomStart)
     }
 
     val mapProperties by remember {
