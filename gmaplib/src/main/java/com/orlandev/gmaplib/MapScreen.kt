@@ -188,7 +188,7 @@ fun MapScreen(
                     val chipBorderStroke =
                         BorderStroke(
                             0.7.dp,
-                            color = MaterialTheme.colors.primary.copy(alpha = 0.7f)
+                            color = fabContentColor.copy(alpha = 0.7f)
                         )
 
                     MapChip(
