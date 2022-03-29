@@ -3,8 +3,11 @@ package com.orlandev.gmaplib
 
 import android.util.Log
 import androidx.compose.animation.*
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -51,7 +54,7 @@ fun MapScreen(
 
     var isMapLoaded by remember { mutableStateOf(false) }
 
-    val currentPlaceInfo = remember {
+    val currentPlaceInfo = rememberSaveable{
         mutableStateOf<MapPlaceInfo?>(null)
     }
 
@@ -185,7 +188,8 @@ fun MapScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .horizontalScroll(state = scrollFilterState)
+                        .horizontalScroll(state = scrollFilterState),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
 
                     val chipBorderStroke =
@@ -195,14 +199,14 @@ fun MapScreen(
                         )
 
                     MapChip(
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
                         border = chipBorderStroke,
                         onClick = {
                             setSearchFilter("")
                             setCurrentFilter("")
                         })
                     {
-                        Icon(Icons.Default.Add, contentDescription = null)
+                        Text(text = "+")
                     }
                     listOfFilters.forEach { listOfFilterItem ->
                         MapChip(
