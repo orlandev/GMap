@@ -316,7 +316,7 @@ private fun GoogleMapView(
 
         markerList.value.forEach {
             MarkerInfoWindowContent(
-                position = it.location.toLatLon(),
+                state = MarkerState(position = it.location.toLatLon()),
                 visible = it.groupBy?.filter == currentFilter || it.title.contains(currentFilter) || currentFilter == "",
                 title = it.title,
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE),
