@@ -216,7 +216,7 @@ fun MapScreen(
                             modifier = Modifier.padding(8.dp),
                             border = chipBorderStroke,
                             onClick = {
-                                setCurrentFilter(listOfFilterItem.text)
+                                setCurrentFilter(listOfFilterItem.id)
                             }) {
                             Text(text = listOfFilterItem.text)
                         }
@@ -319,13 +319,18 @@ private fun GoogleMapView(
             false
         }
 
-        markerList.value.forEach {
+        markerList.value.forEach { mapPlaceInfo ->
+
+            val isInListOfIds = mapPlaceInfo.groupBy?.filter!!.id.split(",").toList()
+            val valor = isInListOfIds.firstOrNull() { it == currentFilter }
+
             MarkerInfoWindowContent(
-                state = MarkerState(position = it.location.toLatLon()),
-                visible = it.groupBy?.filter?.text!!.lowercase() == currentFilter.lowercase() || it.title.lowercase().contains(
-                    currentFilter.lowercase()
-                ) || currentFilter == "",
-                title = it.title,
+                state = MarkerState(position = mapPlaceInfo.location.toLatLon()),
+                visible = mapPlaceInfo.groupBy?.filter?.text!!.lowercase() == currentFilter.lowercase() || mapPlaceInfo.title.lowercase()
+                    .contains(
+                        currentFilter.lowercase()
+                    ) || currentFilter == "" || valor != null,
+                title = mapPlaceInfo.title,
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE),
                 onClick = markerClick,
             ) { marker ->

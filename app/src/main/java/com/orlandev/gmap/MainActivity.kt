@@ -41,13 +41,14 @@ class MainActivity : ComponentActivity() {
                         MapFilter("5","Home"),
                         MapFilter("6","First"),
                         MapFilter("7","Other"),
+                        MapFilter("8","Ocho"),
                     )
                     val listOfMapPoints = listOf<MapPlaceInfo>(
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
                             location = MapPoint(20.009806, -75.828503),
                             title = "Lorem Ipsum",
-                            groupBy = GroupBy(filter = listOfFilters[Random().nextInt(listOfFilters.size)]),
+                            groupBy = GroupBy(filter = MapFilter("3,2,6,8","Six")),
                         ),
                         MapPlaceInfo(
                             uuid = UUID.randomUUID().toString(),
