@@ -214,14 +214,12 @@ fun MapScreen(
                             border = chipBorderStroke,
                             onClick = {
                                 setCurrentFilter(listOfFilterItem.text)
-
                             }) {
                             Text(text = listOfFilterItem.text)
                         }
                     }
                 }
             }
-
 
             AnimatedVisibility(
                 modifier = Modifier
