@@ -11,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
@@ -28,6 +27,7 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.compose.*
 import com.orlandev.gmaplib.extensions.toLatLon
+import com.orlandev.gmaplib.model.MapFilter
 import com.orlandev.gmaplib.model.MapPlaceInfo
 
 const val TAG = "MapScreen"
@@ -38,7 +38,7 @@ fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
     zoomStart: Float = 19f,
     listOfMapPoints: List<MapPlaceInfo>,
-    listOfFilters: List<String>,
+    listOfFilters: List<MapFilter>,
     fabBackgroundColor: Color,
     fabContentColor: Color = Color.Black,
     onMapPlaceInfoSelected: (MapPlaceInfo) -> Unit,
@@ -213,10 +213,10 @@ fun MapScreen(
                             modifier = Modifier.padding(8.dp),
                             border = chipBorderStroke,
                             onClick = {
-                                setCurrentFilter(listOfFilterItem)
+                                setCurrentFilter(listOfFilterItem.text)
 
                             }) {
-                            Text(text = listOfFilterItem)
+                            Text(text = listOfFilterItem.text)
                         }
                     }
                 }
@@ -321,7 +321,9 @@ private fun GoogleMapView(
         markerList.value.forEach {
             MarkerInfoWindowContent(
                 state = MarkerState(position = it.location.toLatLon()),
-                visible = it.groupBy?.filter == currentFilter || it.title.contains(currentFilter) || currentFilter == "",
+                visible = it.groupBy?.filter?.text!!.lowercase() == currentFilter.lowercase() || it.title.lowercase().contains(
+                    currentFilter.lowercase()
+                ) || currentFilter == "",
                 title = it.title,
                 icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE),
                 onClick = markerClick,

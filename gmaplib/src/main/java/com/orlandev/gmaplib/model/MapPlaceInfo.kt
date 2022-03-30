@@ -3,7 +3,7 @@ package com.orlandev.gmaplib.model
 import android.graphics.Bitmap
 
 data class GroupBy(
-    val filter: String,
+    val filter: MapFilter,
     val icon: Bitmap? = null,
 )
 

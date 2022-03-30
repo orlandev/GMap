@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.orlandev.gmap.ui.theme.GMapTheme
 import com.orlandev.gmaplib.MapScreen
 import com.orlandev.gmaplib.model.GroupBy
+import com.orlandev.gmaplib.model.MapFilter
 import com.orlandev.gmaplib.model.MapPlaceInfo
 import com.orlandev.gmaplib.model.MapPoint
 import java.util.*
@@ -32,14 +33,14 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val listOfFilters = listOf(
-                        "First",
-                        "Second",
-                        "Third",
-                        "Four",
-                        "Six",
-                        "Seven",
-                        "Home",
-                        "Other"
+                        MapFilter("0","First"),
+                        MapFilter("1","Second"),
+                        MapFilter("2","Four"),
+                        MapFilter("3","Six"),
+                        MapFilter("4","Seven"),
+                        MapFilter("5","Home"),
+                        MapFilter("6","First"),
+                        MapFilter("7","Other"),
                     )
                     val listOfMapPoints = listOf<MapPlaceInfo>(
                         MapPlaceInfo(
