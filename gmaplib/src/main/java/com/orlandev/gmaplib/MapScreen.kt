@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.Dp
@@ -121,10 +122,12 @@ fun MapScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Card(
+                    elevation = 0.dp, shape = RoundedCornerShape(50),
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .padding(8.dp)
+                        .alpha(0.95f)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
