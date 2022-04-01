@@ -55,15 +55,15 @@ fun MapScreen(
 
     var isMapLoaded by remember { mutableStateOf(false) }
 
-    val currentPlaceInfo = rememberSaveable{
+    val currentPlaceInfo = remember{
         mutableStateOf<MapPlaceInfo?>(null)
     }
 
-    val (currentFilter, setCurrentFilter) = rememberSaveable {
+    val (currentFilter, setCurrentFilter) = remember {
         mutableStateOf("")
     }
 
-    val (searchFilter, setSearchFilter) = rememberSaveable {
+    val (searchFilter, setSearchFilter) = remember {
         mutableStateOf("")
     }
 
@@ -289,7 +289,7 @@ private fun GoogleMapView(
         )
     }
 
-    val markerList = rememberSaveable {
+    val markerList = remember {
         mutableStateOf(mapPointsInfo)
     }
 
