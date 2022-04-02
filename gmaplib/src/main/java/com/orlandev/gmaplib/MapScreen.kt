@@ -13,8 +13,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -33,7 +33,10 @@ import com.orlandev.gmaplib.model.MapPlaceInfo
 
 const val TAG = "MapScreen"
 
-@OptIn(ExperimentalMaterialApi::class, androidx.compose.animation.ExperimentalAnimationApi::class)
+@OptIn(
+    ExperimentalMaterialApi::class, androidx.compose.animation.ExperimentalAnimationApi::class,
+    androidx.compose.material3.ExperimentalMaterial3Api::class
+)
 @Composable
 fun MapScreen(
     sheetPeekHeight: Dp = 200.dp,
@@ -78,10 +81,8 @@ fun MapScreen(
                 exit = scaleOut() + fadeOut(),
                 enter = scaleIn() + fadeIn()
             ) {
-                FloatingActionButton(
-                    backgroundColor = fabBackgroundColor,
+                androidx.compose.material3.FloatingActionButton(
                     contentColor = fabContentColor,
-                    elevation = FloatingActionButtonDefaults.elevation(0.dp),
                     onClick = { currentPlaceInfo.value = null })
                 {
                     Icon(
@@ -121,8 +122,8 @@ fun MapScreen(
                     .padding(top = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Card(
-                    elevation = 0.dp, shape = RoundedCornerShape(50),
+                androidx.compose.material3.Card(
+                    shape = RoundedCornerShape(50),
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
@@ -161,7 +162,7 @@ fun MapScreen(
                             },
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent,
+                                unfocusedBorderColor = Color.Transparent
                             )
                         )
                         Box(
@@ -224,13 +225,7 @@ fun MapScreen(
                 }
             }
 
-            AnimatedVisibility(
-                modifier = Modifier
-                    .matchParentSize(),
-                visible = !isMapLoaded,
-                enter = EnterTransition.None,
-                exit = fadeOut()
-            ) {
+            if (!isMapLoaded) {
                 if (loadingMapPlaceHolder != null) {
                     loadingMapPlaceHolder()
                 } else {
