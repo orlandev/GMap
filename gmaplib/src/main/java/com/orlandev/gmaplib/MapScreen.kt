@@ -321,7 +321,7 @@ private fun GoogleMapView(
 
             MarkerInfoWindowContent(
                 state = MarkerState(position = mapPlaceInfo.location.toLatLon()),
-                visible = mapPlaceInfo.groupBy?.filter?.text!!.lowercase() == currentFilter.lowercase() || mapPlaceInfo.title.lowercase()
+                visible = mapPlaceInfo.groupBy.filter.text.lowercase() == currentFilter.lowercase() || mapPlaceInfo.title.lowercase()
                     .contains(
                         currentFilter.lowercase()
                     ) || currentFilter == "" || valor != null,
