@@ -37,8 +37,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    //TestMapScreen()
-                     TestSimpleMap()
+                    TestMapScreen()
+                   //  TestSimpleMap()
                 }
             }
         }
@@ -149,7 +149,7 @@ fun TestMapScreen() {
 
         )
 
-    val currentPlaceInfo = rememberSaveable {
+    val currentPlaceInfo = remember{
         mutableStateOf<MapPlaceInfo?>(null)
     }
     MapScreen(
