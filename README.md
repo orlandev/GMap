@@ -114,7 +114,7 @@ data class MapPlaceInfo(
    
 2. Create a state to know which is the place that is currently selected by the user
 ```kotlin
-val currentPlaceInfo = rememberSaveable { mutableStateOf<MapPlaceInfo?>(null) }
+val currentPlaceInfo = remember { mutableStateOf<MapPlaceInfo?>(null) } 
 ```
 
 3. Add the composable that will display the information when the user selects a marker on the map
