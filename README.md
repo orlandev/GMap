@@ -1,3 +1,5 @@
+# This information will be updated in a few days
+
 # GMap
   This Jetpack Compose component was born out of the need to implement a map in some of the projects I'm working on for the Inmersoft Group.
   The idea was to generate a generic map component that could be reused in various projects.
