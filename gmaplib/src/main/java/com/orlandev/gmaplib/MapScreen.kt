@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.compose.*
 import com.orlandev.gmaplib.extensions.toLatLon
@@ -44,6 +45,7 @@ fun MapScreen(
     listOfMapPoints: List<MapPlaceInfo>,
     listOfFilters: List<MapFilter>,
     fabBackgroundColor: Color,
+    jsonStyle: String,
     fabContentColor: Color = Color.Black,
     onMapPlaceInfoSelected: (MapPlaceInfo) -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -113,7 +115,7 @@ fun MapScreen(
                     currentPlaceInfo.value = it
                     focusManager.clearFocus()
                     onMapPlaceInfoSelected(it)
-                }
+                }, jsonStyle = jsonStyle
             )
 
             Column(
@@ -263,6 +265,7 @@ internal fun MapChip(
 private fun GoogleMapView(
     modifier: Modifier, zoomStart: Float,
     mapPointsInfo: List<MapPlaceInfo>,
+    jsonStyle: String,
     onMarketSelected: (MapPlaceInfo) -> Unit,
     onMapLoaded: () -> Unit,
     currentFilter: String
@@ -274,7 +277,12 @@ private fun GoogleMapView(
     }
 
     val mapProperties by remember {
-        mutableStateOf(MapProperties(mapType = MapType.NORMAL))
+        mutableStateOf(
+            MapProperties(
+                mapType = MapType.NORMAL,
+                mapStyleOptions = MapStyleOptions(jsonStyle)
+            )
+        )
     }
 
     val uiSettings by remember {

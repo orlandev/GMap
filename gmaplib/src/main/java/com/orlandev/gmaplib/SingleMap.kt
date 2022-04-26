@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.compose.*
 import com.orlandev.gmaplib.extensions.toLatLon
@@ -21,6 +22,7 @@ fun SimpleMap(
     modifier: Modifier = Modifier,
     staticMapPoint: MapPlaceInfo,
     zoomStart: Float,
+    jsonStyle: String,// in JSON format
     onMapLoaded: () -> Unit,
     onMarketSelected: (Boolean) -> Unit
 ) {
@@ -29,7 +31,11 @@ fun SimpleMap(
     }
 
     val mapProperties by remember {
-        mutableStateOf(MapProperties(mapType = MapType.NORMAL))
+        mutableStateOf(
+            MapProperties(
+                mapType = MapType.NORMAL, mapStyleOptions = MapStyleOptions(jsonStyle)
+            )
+        )
     }
 
     val uiSettings by remember {
