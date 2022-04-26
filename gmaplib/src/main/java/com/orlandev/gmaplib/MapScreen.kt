@@ -73,6 +73,7 @@ fun MapScreen(
     val focusManager = LocalFocusManager.current
 
     BottomSheetScaffold(
+         backgroundColor = MaterialTheme.colorScheme.background,
         scaffoldState = scaffoldState,
         sheetPeekHeight = if (currentPlaceInfo.value != null) sheetPeekHeight else 0.dp,
         floatingActionButton = {

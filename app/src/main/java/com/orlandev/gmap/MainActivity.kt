@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.orlandev.gmap.ui.theme.GMapTheme
 import com.orlandev.gmaplib.MapScreen
+import com.orlandev.gmaplib.MapScreenV2
 import com.orlandev.gmaplib.SimpleMap
 import com.orlandev.gmaplib.TAG
 import com.orlandev.gmaplib.model.GroupBy
@@ -39,6 +40,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     TestMapScreen()
                    //  TestSimpleMap()
+                  //  MapScreenV2()
                 }
             }
         }
