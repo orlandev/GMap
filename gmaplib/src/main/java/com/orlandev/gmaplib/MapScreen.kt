@@ -280,7 +280,7 @@ private fun GoogleMapView(
         mutableStateOf(
             MapProperties(
                 mapType = MapType.NORMAL,
-                mapStyleOptions = MapStyleOptions(jsonStyle)
+                mapStyleOptions = if (jsonStyle.isNotEmpty()) MapStyleOptions(jsonStyle) else null
             )
         )
     }

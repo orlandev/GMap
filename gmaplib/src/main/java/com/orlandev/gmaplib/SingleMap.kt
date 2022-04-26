@@ -33,7 +33,8 @@ fun SimpleMap(
     val mapProperties by remember {
         mutableStateOf(
             MapProperties(
-                mapType = MapType.NORMAL, mapStyleOptions = MapStyleOptions(jsonStyle)
+                mapType = MapType.NORMAL,
+                mapStyleOptions = if (jsonStyle.isNotEmpty()) MapStyleOptions(jsonStyle) else null
             )
         )
     }
