@@ -341,7 +341,6 @@ private fun GoogleMapView(
                 Text(marker.title ?: "Title")
             }
         }
-
     }
 }
 
